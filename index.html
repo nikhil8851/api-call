@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>api index</title>
+</head>
+
+<body>
+    <div>
+        <h1>API Index</h1>
+
+
+    </div>
+
+
+    <script>
+        let h = document.querySelector("h1")
+        fetch("https://instagram-express-app.vercel.app/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: "morth@gmail.com",
+                password: "123456"
+            })
+        })
+            .then(response => response.json())
+            .then(info => {
+                let gtoken = info.data.token
+                fetch("https://instagram-express-app.vercel.app/api/auth/zuku", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${gtoken}`
+                    }
+                })
+                .then(response => response.json())
+                .then(info => {
+                console.log(info.data.message)
+                   h.innerHTML = info.data.message
+                })
+                  .catch(error => console.log(error))
+            })
+            .catch(error => console.log(error))
+
+
+
+
+    </script>
+</body>
+
+</html>
